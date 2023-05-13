@@ -59,7 +59,7 @@ app.post('/register', async (req, res) => {
     } else {
         const salt = bcrypt.genSaltSync(10);
         const hashPassword = bcrypt.hashSync(password,salt)
-        const user = await userModel.create({ username, password: hashPassword, role: ['user'] })
+        const user = await userModel.create({ username, password: hashPassword, role: ['user    '] })
         res.send(user)
     }
 
@@ -71,3 +71,4 @@ app.put('/update', async (req, res) => {
 
 app.listen(3000)
 console.log('Server running')
+module.exports = { app }
