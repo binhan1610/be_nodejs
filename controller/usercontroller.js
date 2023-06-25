@@ -11,10 +11,10 @@ const userController= {
     }
   },
   deleteUser: async(req,res)=>{
-      const userdelete = await userModel.findOne({username:req.params.username})
+      const userdelete = await userModel.findOne({username:req.body.username})
       console.log(userdelete);
       if(userdelete){
-        userModel.findOneAndDelete({username:req.params.username})
+        userModel.findOneAndDelete({username:req.body.username})
         .then((data)=>
            res.json({
                message:`da xoa thanh cong`,

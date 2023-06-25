@@ -1,10 +1,14 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const { userRouter } = require('./routes/user')
+const {shopteaRouter}=require('./routes/shoptea')
+const {productRouter}=require('./routes/product')
+const productcontroller=require("./controller/productcontroller")
+
 const jwt = require('jsonwebtoken')
-const { users, userModel } = require('./models/user')
+const {  userModel } = require('./models/user')
 const bcrypt = require('bcrypt')
 const cors = require('cors')
+const shopteaController = require('./controller/shopteacontroller')
 const app = express()
 app.use(cors())
 app.use(express.json())
@@ -24,10 +28,11 @@ const authenticationCheck = async (req, res, next) => {
         res.send('User khong ton tai')
     }
 }
-
+app.get('/product',productcontroller.getAllProduct)
+app.get('/shoptea',shopteaController.getAllShoptea)
 app.use('/users', authenticationCheck, userRouter)
-// app.use('/song', songRouter)
-
+app.use('/product',authenticationCheck,productRouter)
+app.use('/shoptea',authenticationCheck,shopteaRouter)
 app.get('/', (req, res) => {
     res.send('Home router')
 })
@@ -42,7 +47,11 @@ app.post('/login', async (req, res) => {
         if (user && bcrypt.compareSync(password, user.password)) {
             const token = jwt.sign({ username: username }, '123@lol')
             // Tra token cho client
-            res.send(token)
+            res.status(200).send({
+                message: 'Đăng nhập thành công!',
+                token: token,
+                user:user
+              });
         } else {
             console.log(req.body);
             res.send('khong tim thay')
@@ -74,6 +83,10 @@ app.post('/register', async (req, res) => {
         console.log(error)
         res.status(500).send('Có lỗi xảy ra!')
     }
+})
+app.get('/logout',authenticationCheck,(req,res)=>{
+     delete req.user;
+     res.status(200).send('dang xuat')
 })
 app.put('/update', async (req, res) => {
     const { username, password } = res.body

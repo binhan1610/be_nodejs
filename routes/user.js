@@ -32,31 +32,7 @@ userRouter.patch('/', async(req,res)=>{
     const{password} = req.body
 })
 
-userRouter.delete('/:username', authorizationCheck , userController.deleteUser)
-// async(req,res) => {
-//     // Lay username tu params
-    
-//     const userdelete= await userModel.findOne({username : req.params.username})
-//     console.log(userdelete);
-//     if(userdelete){
-//         userModel.findOneAndDelete({username : req.params.username})
-//         .then((data)=>
-//            res.json({
-//                message:`da xoa thanh cong`,
-//                data
-//              })
-//         ).catch((err)=>res.json(err))
-//     }
-//     else{
-//         res.json("User không tồn tại")
-//     }
+userRouter.delete('/', authorizationCheck , userController.deleteUser)
 
- 
-    // Tim xem user co trong db khong??
-
-    // Xoa
-
-    
-// })
 
 module.exports = { userRouter }

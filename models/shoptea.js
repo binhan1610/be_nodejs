@@ -4,12 +4,13 @@ mongoose.connect('mongodb+srv://dangbinhan1610:binhan1012001@cluster0.zphxwo8.mo
     .then(() => console.log('Connected to MongoDB...'))
     .catch(err => console.error('Could not connect to MongoDB...', err));
 
-const userSchema = new mongoose.Schema({
-    username: String,
-    password: String,
-    role: [String]
-},{ collection: 'users' })
+    const shopteaSchema = new mongoose.Schema({
+        name:String,
+        lat:Number,
+        address: String,
+        lon: Number
+    }, { collection: 'shopteas' });
 
-const userModel = mongoose.model('users', userSchema)
+const shopteaModel = mongoose.model('shoptea', shopteaSchema)
 
-module.exports = { userModel }
+module.exports = { shopteaModel }
